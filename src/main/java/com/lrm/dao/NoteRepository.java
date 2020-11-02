@@ -1,0 +1,15 @@
+package com.lrm.dao;
+
+import com.lrm.po.NoteNew;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+/**
+ * Created by limi on 2017/10/20.
+ */
+public interface NoteRepository extends JpaRepository<NoteNew, Long> {
+
+    @Override
+    List<NoteNew> findAll();
+}

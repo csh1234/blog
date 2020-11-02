@@ -2,9 +2,11 @@ package com.lrm.web;
 
 import com.lrm.NotFoundException;
 import com.lrm.service.BlogService;
+import com.lrm.service.NoteServiceImpl;
 import com.lrm.service.TagService;
 import com.lrm.service.TypeService;
 import com.lrm.vo.BlogQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,6 +32,9 @@ public class IndexController {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private NoteServiceImpl noteServiceImpl;
+
 
     @GetMapping("/")
     public String index(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
@@ -38,6 +43,15 @@ public class IndexController {
         model.addAttribute("types", typeService.listTypeTop(6));
         model.addAttribute("tags", tagService.listTagTop(10));
         model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(8));
+        /**
+         * 最新公告
+         */
+        String lastNew = noteServiceImpl.getLastNew();
+        if(StringUtils.isEmpty(lastNew)){
+            model.addAttribute("note", "博主最近很懒，什么都没留下！！！");
+        }else{
+            model.addAttribute("note", noteServiceImpl.getLastNew());
+        }
         return "index";
     }
 

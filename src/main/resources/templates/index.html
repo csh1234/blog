@@ -415,8 +415,25 @@
         <!--右边的top-->
         <div class="five wide column">
 
-          <!--分类-->
+          <!--最新公告-->
           <div class="ui segments">
+            <div class="ui secondary segment">
+              <div class="ui two column grid">
+                <div class="column">
+                  <i class="book icon"></i>最新公告
+                </div>
+                <div class="right aligned column">
+                  <!--<a href="#" th:href="@{types/-1}" target="_blank"></a>-->
+                </div>
+              </div>
+            </div>
+            <div class="ui teal segment">
+              <span th:text="${note}">博主最近很懒，什么都没留下！！！</span>
+            </div>
+          </div>
+
+          <!--分类-->
+          <div class="ui segments m-margin-top-large">
             <div class="ui secondary segment">
               <div class="ui two column grid">
                 <div class="column">
