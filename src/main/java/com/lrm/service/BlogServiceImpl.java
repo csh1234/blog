@@ -1,6 +1,7 @@
 package com.lrm.service;
 
 import com.lrm.NotFoundException;
+import com.lrm.anation.ServiceInvoker;
 import com.lrm.dao.BlogRepository;
 import com.lrm.po.Blog;
 import com.lrm.po.Type;
@@ -31,12 +32,14 @@ public class BlogServiceImpl implements BlogService {
     private BlogRepository blogRepository;
 
     @Override
+    @ServiceInvoker
     public Blog getBlog(Long id) {
         return blogRepository.findOne(id);
     }
 
     @Transactional
     @Override
+    @ServiceInvoker
     public Blog getAndConvert(Long id) {
         Blog blog = blogRepository.findOne(id);
         if (blog == null) {
@@ -53,6 +56,7 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
+    @ServiceInvoker
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
         return blogRepository.findAll(new Specification<Blog>() {
             @Override
@@ -74,11 +78,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @ServiceInvoker
     public Page<Blog> listBlog(Pageable pageable) {
         return blogRepository.findAll(pageable);
     }
 
     @Override
+    @ServiceInvoker
     public Page<Blog> listBlog(Long tagId, Pageable pageable) {
         return blogRepository.findAll(new Specification<Blog>() {
             @Override
@@ -90,11 +96,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @ServiceInvoker
     public Page<Blog> listBlog(String query, Pageable pageable) {
         return blogRepository.findByQuery(query,pageable);
     }
 
     @Override
+    @ServiceInvoker
     public List<Blog> listRecommendBlogTop(Integer size) {
         Sort sort = new Sort(Sort.Direction.DESC,"updateTime");
         Pageable pageable = new PageRequest(0, size, sort);
@@ -102,6 +110,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @ServiceInvoker
     public Map<String, List<Blog>> archiveBlog() {
         List<String> years = blogRepository.findGroupYear();
         Map<String, List<Blog>> map = new HashMap<>();
@@ -112,6 +121,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @ServiceInvoker
     public Long countBlog() {
         return blogRepository.count();
     }
@@ -119,6 +129,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Transactional
     @Override
+    @ServiceInvoker
     public Blog saveBlog(Blog blog) {
         if (blog.getId() == null) {
             blog.setCreateTime(new Date());
@@ -132,6 +143,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Transactional
     @Override
+    @ServiceInvoker
     public Blog updateBlog(Long id, Blog blog) {
         Blog b = blogRepository.findOne(id);
         if (b == null) {
@@ -144,6 +156,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Transactional
     @Override
+    @ServiceInvoker
     public void deleteBlog(Long id) {
         blogRepository.delete(id);
     }
